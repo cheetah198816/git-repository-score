@@ -1,0 +1,176 @@
+openapi: 3.0.3
+info:
+  title: GitHub Repository Popularity Scoring Service
+  description: |
+    ### Description
+    This service adds score to first 100 public Github Repositories.
+  version: v1
+  x-maven-version: '{{version}}'
+servers:
+  - url: http://localhost:8080/v1
+tags:
+  - name: "Git Hub Repository Score"
+    description: Provides endpoints for assigning popularity score to first 100 public Github Repositories.
+paths:
+  /githubRepositories:
+    get:
+      operationId: getGitHubRepositoriesWithScore
+      summary: Retrieves first 100 public Github Repositories with popularity score.
+      description: >-
+        Returns first 100 public Github Repositories with popularity score.
+        <br><br>
+        **Note** : *The popularity score is between 1 to 5 where 1 indicates the low popularity and 5 indicates high popularity.*
+        *The popularity score is calculated based on stars, forks and recency of updates to each public Github repository.*
+      tags:
+        - "Git Hub Repository Score"
+      parameters:
+        - name: createdAt
+          in: query
+          description: Date of repository creation.
+          schema:
+            type: string
+            minLength: 1
+          example: 2011-01-01
+          required: true
+        - name: language
+          in: query
+          description: Programming Language of the repository.
+          schema:
+            type: string
+            minLength: 1
+          example : java
+          required: true
+      responses:
+        '200':
+          description: >-
+            First 100 public repositories sorted by popularity score.
+          content:
+            application/json:
+              schema:
+                title: RepositoriesWithPopularityScoreDto
+                type: array
+                items:
+                  $ref: '#/components/schemas/RepositoryWithPopularityScoreDto'
+                example:
+                  [{
+                    "repositoryName": "chetannaik/geographical",
+                    "score": "1"
+                  }]
+        '400':
+          description: If the `createdAt` or ´language´ is missing or blank.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                {
+                  "error": {
+                    "status": 400,
+                    "code": 20104,
+                    "message": "Bad Request",
+                    "retryable": false
+                  }
+                }
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: If no repositories are found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                {
+                  "error": {
+                    "status": 404,
+                    "code": 20121,
+                    "message": "Not Found",
+                    "retryable": false
+                  }
+                }
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    Unauthorized:
+      description: 'If the request does not contain any credentials.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              status: 401
+              code: 20160
+              message: Not Authenticated,
+              retryable: false
+    Forbidden:
+      description: 'If the given credentials are invalid or the required permissions are missing.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              status: 403
+              code: 50101
+              message: Forbidden,
+              retryable: false
+    InternalServerError:
+      description: |
+        An error occurs during the processing of the request. For more information see
+        [Error handling](tbd).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              status: 500
+              code: 90019
+              message: "DESIREDSTATES_UPDATE_ERROR: Timeout: Cannot reach ..."
+              retryable: false
+              trace: null
+  schemas:
+    RepositoryWithPopularityScoreDto:
+      type: object
+      properties:
+        repositoryName:
+          type: string
+          description: full name of the repository.
+        score:
+          type: number
+          format: int32
+          description: popularity score of the repository.
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorResponse'
+    ErrorResponse:
+      description: Error response according to the [Digital Truck Platform Style Guide](https://kimdev.kiongroup.net/wiki/display/DTPFI/10.4.1.2.2.1+Error+Response).
+      type: object
+      required: [ "status", "code", "message" ]
+      properties:
+        status:
+          description: The HTTP status code
+          type: integer
+        code:
+          description: Unique error code helping to identify the root cause of the error
+          type: integer
+        message:
+          description: Message helping to identify the root cause of the error
+          type: string
+        retryable:
+          description: Indicates if the client should retry the failed request
+          type: boolean
+        trace:
+          description: Contains the stacktrace of the error on DEV and UAT
+          type: string
+
+# Security details are automatically appended after this line. They will look like this:
+#  securitySchemes:
+#    microsoftOAuth2:
+#      {"flows":{"clientCredentials":{"tokenUrl":"https://login.microsoftonline.com/XXX/oauth2/v2.0/token","scopes":{"api://XXX/.default":"API access"}}},"type":"oauth2"}

@@ -1,0 +1,14 @@
+springdoc:
+  api-docs:
+    path: /swagger-resources/v3/api-docs
+  webjars:
+    prefix: /swagger-resources
+  swagger-ui:
+    url: /openapi.yaml
+    doc-expansion: none
+github:
+  url: https://api.github.com
+  timeout: 10
+webflux:
+  memory:
+    size: 1024
