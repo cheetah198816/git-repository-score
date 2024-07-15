@@ -92,6 +92,8 @@ paths:
                 }
         '500':
           $ref: '#/components/responses/InternalServerError'
+      security:
+        - basicAuth: []
 components:
   responses:
     Unauthorized:
@@ -169,8 +171,7 @@ components:
         trace:
           description: Contains the stacktrace of the error on DEV and UAT
           type: string
-
-# Security details are automatically appended after this line. They will look like this:
-#  securitySchemes:
-#    microsoftOAuth2:
-#      {"flows":{"clientCredentials":{"tokenUrl":"https://login.microsoftonline.com/XXX/oauth2/v2.0/token","scopes":{"api://XXX/.default":"API access"}}},"type":"oauth2"}
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
