@@ -1,9 +1,9 @@
 # git-repository-score
-This service scores the github public repositories between 1-5 considering factors like stars, forks and recent updates.
+This service scores each Github public repository between 1-5 considering factors like stars, forks and recent updates.
 
-## Score Calculation Algorithm for each Github Repository
+## Popularity Score Calculation Algorithm for each Github Repository
 For each Github Repository individual scores for stars, forks and recent updates are calculated according to tables below 
-### Score Calculation for stars and forks
+### Popularity Score Calculation for stars and forks
 | Stars / Forks        | Score |
 |----------------------|---|
 | Between 0 and 100    | 1 | 
@@ -11,7 +11,7 @@ For each Github Repository individual scores for stars, forks and recent updates
 | Between 301 and 500  | 3 | 
 | Between 501 and 1000 | 4 | 
 | More than 1000       | 5 |
-### Score Calculation for recency of updates
+### Popularity Score Calculation for recency of updates
 | Recency of updates                                                           | Score |
 |------------------------------------------------------------------------------|---|
 | Last updated more than a year ago                                            | 1 | 
@@ -20,16 +20,15 @@ For each Github Repository individual scores for stars, forks and recent updates
 | Last updated more than 2 days ago from the current date but less than a week | 4 | 
 | Last updated recently                                                        | 5 |
 
-### The final score for each Github Repository is the average of individuals scores of stars, forks and recency of updates.
+### The final popularity score for each Github Repository is the average of individuals scores of stars, forks and recency of updates.
 
-
-### Prerequisites
+## Prerequisites
 
 Before starting, make sure you have at least those components on your workstation:
 
 - [Java Development Kit (JDK)](https://www.azul.com/downloads/?package=jdk#download-openjdk) >= 17
-- Docker
-- Maven
+- Docker (https://docs.docker.com/engine/install/)
+- Maven (https://maven.apache.org/download.cgi)
 
 ## Build the project
 
@@ -37,8 +36,17 @@ Before starting, make sure you have at least those components on your workstatio
 $ mvn install
 ```
 
-## Run the project locally
+## Run the project locally with docker
 
 ```shell
 $ docker run --name git-hub-score-service -d -p 8080:8080 git-repository/git-repository-score
 ```
+
+## Run the project locally without docker
+
+```shell
+$  mvn spring-boot:run
+```
+
+## Open API Spec URL Local
+http://localhost:8080/swagger-ui.html
