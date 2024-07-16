@@ -143,6 +143,14 @@ components:
         repositoryName:
           type: string
           description: full name of the repository.
+        stars:
+          type: number
+          format: int32
+        forks:
+          type: number
+          format: int32
+        updatedAt:
+          type: string
         score:
           type: number
           format: int32

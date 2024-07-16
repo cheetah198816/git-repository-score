@@ -28,12 +28,11 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
                         double scoreForForks = getScoreOfForksAndStars(githubRepository.getForks());
                         double scoreForRecencyOfUpdates = getScoreOfRecentUpdate(githubRepository.getUpdatedAt());
                         finalScore = Math.round((scoreForStars + scoreForForks + scoreForRecencyOfUpdates) / 3);
-                        return new RepositoryWithPopularityScore(githubRepository.getFullName(), finalScore);
+                        return new RepositoryWithPopularityScore(githubRepository.getFullName(), finalScore, githubRepository.getStargazersCount(), githubRepository.getForks(), githubRepository.getUpdatedAt());
                     } catch (ParseException e) {
-                       return new GithubRepositoryServiceException(ErrorCode.INTERNAL_SERVER_ERROR, "Error occured while parsing");
+                       throw  new GithubRepositoryServiceException(ErrorCode.INTERNAL_SERVER_ERROR, "Error occured while parsing updatedAt");
                     }
-                   })
-                .cast(RepositoryWithPopularityScore.class);
+                   });
     }
 
     private double getScoreOfRecentUpdate(String updatedAt) throws ParseException {
