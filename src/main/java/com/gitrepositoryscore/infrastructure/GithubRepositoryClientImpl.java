@@ -7,11 +7,14 @@ import com.gitrepositoryscore.domain.exceptions.GithubRepositoryServiceException
 import com.gitrepositoryscore.infrastructure.model.GithubRepositoriesDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.client.utils.URIBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientRequestException;
 import reactor.core.publisher.Flux;
+
+import java.time.LocalDate;
 
 @Slf4j
 @Component
@@ -23,7 +26,7 @@ public class GithubRepositoryClientImpl implements GithubRepositoryClient {
   private final GithubRepositoryMapper githubRepositoryMapper;
 
   @Override
-  public Flux<GithubRepository> getGithubPublicRepositories(String createdAt, String language) {
+  public Flux<GithubRepository> getGithubPublicRepositories(LocalDate createdAt, String language) {
     log.info("getGithubPublicRepositories({}, {})", createdAt, language);
     return githubWebClient.get()
             .uri("/search/repositories?q=created:"+ createdAt + "+language:" + language+ "&per_page=100")

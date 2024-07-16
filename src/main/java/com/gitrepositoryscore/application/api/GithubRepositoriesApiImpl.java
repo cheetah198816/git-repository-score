@@ -14,16 +14,21 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Date;
 
 @RestController
 @Slf4j
 @RequiredArgsConstructor
 public class GithubRepositoriesApiImpl extends V1Api implements GithubRepositoriesApi {
     public final GithubRepositoryService githubRepositoryService;
+
+    public final RepositoryWithPopularityScoreMapper repositoryWithPopularityScoreMapper;
     @Override
-    public Mono<ResponseEntity<Flux<RepositoryWithPopularityScoreDto>>> getGitHubRepositoriesWithScore(String createdAt, String language, ServerWebExchange exchange) {
+    public Mono<ResponseEntity<Flux<RepositoryWithPopularityScoreDto>>> getGitHubRepositoriesWithScore(LocalDate createdAt, String language, ServerWebExchange exchange) {
         log.info("getGitHubRepositoriesWithScore({}, {})", createdAt, language);
-        return Mono.just(ResponseEntity.ok(githubRepositoryService.getGitHubRepositoriesWithScore(createdAt, language)
-                .map(repositoryWithPopularityScore -> new RepositoryWithPopularityScoreDto().repositoryName(repositoryWithPopularityScore.getFullName()).score(BigDecimal.valueOf(repositoryWithPopularityScore.getScore())))));
+        Flux<RepositoryWithPopularityScoreDto> repositoryWithPopularityScoreDtoFlux = githubRepositoryService.getGitHubRepositoriesWithScore(createdAt, language)
+                .map(repositoryWithPopularityScoreMapper::mapToDto);
+        return Mono.just(ResponseEntity.ok(repositoryWithPopularityScoreDtoFlux));
     }
 }

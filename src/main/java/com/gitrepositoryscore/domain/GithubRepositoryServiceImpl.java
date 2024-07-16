@@ -2,7 +2,6 @@ package com.gitrepositoryscore.domain;
 
 import com.gitrepositoryscore.domain.exceptions.ErrorCode;
 import com.gitrepositoryscore.domain.exceptions.GithubRepositoryServiceException;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -10,7 +9,7 @@ import reactor.core.publisher.Flux;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -20,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class GithubRepositoryServiceImpl implements GithubRepositoryService {
     public final GithubRepositoryClient githubRepositoryClient;
     @Override
-    public Flux<RepositoryWithPopularityScore> getGitHubRepositoriesWithScore(String createdAt, String language) {
+    public Flux<RepositoryWithPopularityScore> getGitHubRepositoriesWithScore(LocalDate createdAt, String language) {
         return githubRepositoryClient.getGithubPublicRepositories(createdAt, language)
                 .map(githubRepository -> {
                     try {
@@ -57,7 +56,7 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
         }
     }
 
-    public static long getDateDifference(Date date1, Date date2, TimeUnit timeUnit) {
+    private static long getDateDifference(Date date1, Date date2, TimeUnit timeUnit) {
         long differenceInMilliseconds = date2.getTime() - date1.getTime();
         return timeUnit.convert(differenceInMilliseconds, TimeUnit.MILLISECONDS);
     }

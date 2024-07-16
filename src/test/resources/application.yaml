@@ -1,0 +1,8 @@
+spring:
+  main.allow-bean-definition-overriding: true
+github:
+  url: https://api.github.com
+  timeout: 10
+webflux:
+  memory:
+    size: 1024

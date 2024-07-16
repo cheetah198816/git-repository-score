@@ -22,7 +22,19 @@
         <docker.name>${docker.repository}/${project.artifactId}</docker.name>
         <docker.tag>latest</docker.tag>
         <dockerfile-maven-plugin.version>1.4.13</dockerfile-maven-plugin.version>
+        <spring-cloud.version>2023.0.2</spring-cloud.version>
     </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -75,6 +87,11 @@
         <dependency>
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-contract-wiremock</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
