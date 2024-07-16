@@ -7,8 +7,6 @@ import com.gitrepositoryscore.domain.GithubRepository;
 import com.gitrepositoryscore.domain.GithubRepositoryClient;
 import com.gitrepositoryscore.domain.exceptions.ErrorCode;
 import com.gitrepositoryscore.domain.exceptions.GithubRepositoryServiceException;
-import com.gitrepositoryscore.generated.api.model.Error;
-import com.gitrepositoryscore.generated.api.model.ErrorResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
