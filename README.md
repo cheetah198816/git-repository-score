@@ -1,6 +1,6 @@
 # git-repository-score
 This service assigns popularity score to each Github public repository between 1-5 considering factors like stars, forks and recent updates.
-
+1 indicates low popularity and 5 indicates high popularity of each Github repository.
 ## Popularity Score Calculation Algorithm for each Github Repository
 For each Github Repository individual scores for stars, forks and recent updates are calculated according to tables below 
 ### Popularity Score Calculation for stars and forks
