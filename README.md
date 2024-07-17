@@ -26,7 +26,7 @@ For each Github Repository individual scores for stars, forks and recent updates
 - Popularity Score for stars is 1
 - Popularity Score for forks is 1
 - Popularity Score for recency of updates is 5
-##### Final GitHub Repository popularity score is (5+1+1)/3 = 2.3
+##### Final Popularity Score of Github Repository A is (5+1+1)/3 = 2.3
 
 ## Prerequisites
 
