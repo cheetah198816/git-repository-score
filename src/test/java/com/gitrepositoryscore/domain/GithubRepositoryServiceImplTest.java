@@ -9,6 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -34,8 +35,8 @@ public class GithubRepositoryServiceImplTest {
         when(githubRepositoryClient.getGithubPublicRepositories(any(), any())).thenReturn(Flux.fromIterable(gitHubRepositories));
 
         StepVerifier.create(githubRepositoryService.getGitHubRepositoriesWithScore(LocalDate.now(),"java"))
-                .expectNextMatches(repositoryWithPopularityScore -> repositoryWithPopularityScore.equals(new RepositoryWithPopularityScore("test1", 2l, 3, 1, "2024-07-15T07:43:29Z")))
-                .expectNextMatches(repositoryWithPopularityScore -> repositoryWithPopularityScore.equals(new RepositoryWithPopularityScore("test2", 3l, 200, 200, "2024-07-15T07:43:29Z")))
+                .expectNextMatches(repositoryWithPopularityScore -> repositoryWithPopularityScore.equals(new RepositoryWithPopularityScore("test1", BigDecimal.valueOf(2.3), 3, 1, "2024-07-15T07:43:29Z")))
+                .expectNextMatches(repositoryWithPopularityScore -> repositoryWithPopularityScore.equals(new RepositoryWithPopularityScore("test2", BigDecimal.valueOf(3.0), 200, 200, "2024-07-15T07:43:29Z")))
                 .verifyComplete();
     }
 

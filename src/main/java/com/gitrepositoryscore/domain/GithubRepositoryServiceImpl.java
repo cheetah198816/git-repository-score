@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -23,12 +25,12 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
         return githubRepositoryClient.getGithubPublicRepositories(createdAt, language)
                 .map(githubRepository -> {
                     try {
-                        long finalScore;
+                        double finalScore;
                         double scoreForStars = getScoreOfForksAndStars(githubRepository.getStargazersCount());
                         double scoreForForks = getScoreOfForksAndStars(githubRepository.getForks());
                         double scoreForRecencyOfUpdates = getScoreOfRecentUpdate(githubRepository.getUpdatedAt());
-                        finalScore = Math.round((scoreForStars + scoreForForks + scoreForRecencyOfUpdates) / 3);
-                        return new RepositoryWithPopularityScore(githubRepository.getFullName(), finalScore, githubRepository.getStargazersCount(), githubRepository.getForks(), githubRepository.getUpdatedAt());
+                        finalScore = (scoreForStars + scoreForForks + scoreForRecencyOfUpdates) / 3;
+                        return new RepositoryWithPopularityScore(githubRepository.getFullName(), BigDecimal.valueOf(finalScore).setScale(1, RoundingMode.HALF_UP), githubRepository.getStargazersCount(), githubRepository.getForks(), githubRepository.getUpdatedAt());
                     } catch (ParseException e) {
                        throw  new GithubRepositoryServiceException(ErrorCode.INTERNAL_SERVER_ERROR, "Error occured while parsing updatedAt");
                     }

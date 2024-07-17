@@ -13,14 +13,14 @@ public class RepositoryWithPopularityScoreMapperTest {
 
     @Test
     void mapToDto_ValidInput_Success() {
-        var githubRepositoryDto = new RepositoryWithPopularityScore("test", 2l, 100, 200, "2020-07-23T17:23:28Z");
+        var githubRepositoryDto = new RepositoryWithPopularityScore("test", BigDecimal.valueOf(1), 100, 200, "2020-07-23T17:23:28Z");
 
         var gitHubRepositoryWithPopularityScoreDto = mapper.mapToDto(githubRepositoryDto);
         // assertions to verify the result
         assertThat(gitHubRepositoryWithPopularityScoreDto.getRepositoryName()).isEqualTo(githubRepositoryDto.getFullName());
         assertThat(gitHubRepositoryWithPopularityScoreDto.getForks()).isEqualTo(BigDecimal.valueOf(githubRepositoryDto.getForks()));
         assertThat(gitHubRepositoryWithPopularityScoreDto.getStars()).isEqualTo(BigDecimal.valueOf(githubRepositoryDto.getStars()));
-        assertThat(gitHubRepositoryWithPopularityScoreDto.getScore()).isEqualTo(BigDecimal.valueOf(githubRepositoryDto.getScore()));
+        assertThat(gitHubRepositoryWithPopularityScoreDto.getScore()).isEqualTo(BigDecimal.valueOf(1));
         assertThat(gitHubRepositoryWithPopularityScoreDto.getUpdatedAt()).isEqualTo(githubRepositoryDto.getUpdatedAt());
     }
 }
