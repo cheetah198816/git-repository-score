@@ -50,3 +50,4 @@ $  mvn spring-boot:run
 
 ## Open API Spec URL Local
 http://localhost:8080/swagger-ui.html
+**Note:** **The endpoints support basic authentication where username is **user** and password is **user****
