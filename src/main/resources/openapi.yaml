@@ -55,7 +55,10 @@ paths:
                 example:
                   [{
                     "repositoryName": "chetannaik/geographical",
-                    "score": "1"
+                    "stars": 123,
+                    "forks": 13,
+                    "updatedAt": "2024-07-17T00:45:33Z",
+                    "score": 2.7
                   }]
         '400':
           description: If the `createdAt` or ´language´ is missing or blank.
@@ -133,7 +136,7 @@ components:
             error:
               status: 500
               code: 90019
-              message: "DESIREDSTATES_UPDATE_ERROR: Timeout: Cannot reach ..."
+              message: "GIT_HUB_OTHER_ERROR: Timeout: Cannot reach ..."
               retryable: false
               trace: null
   schemas:
@@ -146,11 +149,14 @@ components:
         stars:
           type: number
           format: int32
+          description: number of stars of the repository.
         forks:
           type: number
           format: int32
+          description: number of forks of the repository.
         updatedAt:
           type: string
+          description: last updated time of the repository.
         score:
           type: number
           format: int32
